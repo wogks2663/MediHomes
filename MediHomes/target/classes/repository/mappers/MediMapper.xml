@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+									
+<mapper namespace="com.medihomes.mapper.MediMapper" >
+
+	<select id="hospitalList" parameterType="hashmap" resultType="Hospital" >
+		SELECT * FROM medihosptal
+		<where>
+			<if test="rate == 'NaN'">
+				disease = #{keyword}
+			</if>
+			<if test="rate != 'NaN'">
+				disease = #{keyword} AND grade = #{rate}
+			</if>
+		</where>
+		LIMIT #{startRow}, #{num};
+	</select>
+	
+	<select id="getHospitalCount" resultType="int">
+        SELECT
+            COUNT(no)
+        FROM medihosptal
+        <where>
+            <if test="rate == 'NaN'">
+                disease = #{keyword}
+            </if>
+            <if test="rate != 'NaN'">
+                disease = #{keyword} AND grade = #{rate}
+            </if>
+        </where>
+    </select>
+	
+	<select id="instrumentsList" parameterType="hashmap" resultType="Instruments" >
+		SELECT * FROM mediinstruments
+		WHERE instruments = #{keyword}
+		LIMIT #{startRow}, #{num}
+	</select>
+	
+	<select id="getInstrumentsCount" resultType="int">
+		SELECT
+			COUNT(no)
+		FROM mediinstruments
+		WHERE instruments = #{keyword}
+	</select>
+	
+	<select id="healthInfoList" resultType="HealthInfo">
+		SELECT 
+			*
+		FROM medihealthinfo
+		LIMIT #{startRow}, #{num}
+	</select>
+	
+	<select id="getHealthInfoCount" resultType="int">
+		SELECT
+		COUNT(no)
+		FROM medihealthinfo
+	</select>
+						
+	<select id="encyclopediaList" resultType="Encyclopedia">
+		SELECT 
+			* 
+		FROM mediencyclopedia
+		WHERE type = #{keyword}
+		LIMIT #{startRow}, #{num}
+	</select>
+	
+	<select id="getEncyclopediaCount" resultType="int">
+		SELECT
+		COUNT(no)
+		FROM mediencyclopedia
+		WHERE type = #{keyword}
+	</select>
+</mapper>	
+
+
+
